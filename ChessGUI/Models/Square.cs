@@ -10,16 +10,21 @@ namespace ChessGUI.Models
 {
     public class Square
     {
-        public Square(int size, Color color, Rect rect)
+        public Square(double size, Color color, Rect rect)
         {
             Size = size;
             Color = color;
             Rect = rect;
         }
-        public int Size { get; set; }
+        public double Size { get; set; }
         public Color Color { get; set; }
         public Rect Rect { get; set; }
         public int Rank { get; set; }
         public int File { get; set; }
+
+        public override string ToString()
+        {
+            return $"{File},{Rank}";
+        }
     }
 }

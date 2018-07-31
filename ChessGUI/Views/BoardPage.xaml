@@ -19,7 +19,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <win2d:CanvasAnimatedControl Grid.Column="0"
-                Draw="CanvasAnimatedControl_Draw" CreateResources="CanvasAnimatedControl_CreateResources" />
+                Draw="CanvasAnimatedControl_Draw" CreateResources="CanvasAnimatedControl_CreateResources"
+                SizeChanged="CanvasAnimatedControl_SizeChanged" PointerMoved="CanvasAnimatedControl_PointerMoved" />
             <ListBox Grid.Column="1" Height="400" Width="130" Background="DarkKhaki" />
         </Grid>
     </Grid>

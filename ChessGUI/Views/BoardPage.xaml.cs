@@ -4,6 +4,7 @@ using ChessGUI.ViewModels;
 using Microsoft.Graphics.Canvas.UI;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace ChessGUI.Views
 {
@@ -24,6 +25,17 @@ namespace ChessGUI.Views
         private void CanvasAnimatedControl_CreateResources(CanvasAnimatedControl sender, CanvasCreateResourcesEventArgs args)
         {
 
+        }
+
+        private void CanvasAnimatedControl_SizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
+        {
+            ViewModel.Scale(e.NewSize);
+        }
+
+        private void CanvasAnimatedControl_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            var pos = e.GetCurrentPoint(sender as CanvasAnimatedControl).Position;
+            ViewModel.MouseMoved(pos);
         }
     }
 }

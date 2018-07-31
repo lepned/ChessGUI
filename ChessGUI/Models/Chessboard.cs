@@ -10,11 +10,13 @@ namespace ChessGUI.Models
 {
     public class Chessboard
     {
-        public int Height { get; set; }
-        public int Width { get; set; }
-        public int OffsetX { get; set; }
-        public int OffsetY { get; set; }
+        public double Height { get; set; }
+        public double Width { get; set; }
+        public double OffsetX { get; set; }
+        public double OffsetY { get; set; }
         public List<Square> Squares { get; set; }
+        public bool Updating { get; set; }
+        public double SqSize { get; set; }
         public Chessboard(int width, int height)
         {
             Height = height;
@@ -26,21 +28,22 @@ namespace ChessGUI.Models
 
         private void CreateSquares()
         {
+            Updating = true;
             Squares = new List<Square>();
             var minSize = Math.Min(Height - OffsetY, Width - OffsetX);
-            var sqSize = minSize / 8;
+            SqSize = minSize / 8;
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    var startX = OffsetX + sqSize * j;
-                    var startY = OffsetY + sqSize * i;
-                    var rect = new Rect(startX, startY, sqSize, sqSize);
+                    var startX = OffsetX/2 + SqSize * j;
+                    var startY = OffsetY/2 + SqSize * i;
+                    var rect = new Rect(startX, startY, SqSize, SqSize);
                     if (i % 2 == 0)
                     {
                         if (j % 2 == 0)
                         {
-                            var sq = new Square(sqSize, Colors.Wheat, rect)
+                            var sq = new Square(SqSize, Colors.Wheat, rect)
                             {
                                 Rank = i,
                                 File = j
@@ -49,7 +52,7 @@ namespace ChessGUI.Models
                         }
                         else
                         {
-                            var sq = new Square(sqSize, Colors.DarkGoldenrod, rect)
+                            var sq = new Square(SqSize, Colors.DarkGoldenrod, rect)
                             {
                                 Rank = i,
                                 File = j
@@ -61,17 +64,17 @@ namespace ChessGUI.Models
                     {
                         if (j % 2 == 0)
                         {
-                            var sq = new Square(sqSize, Colors.DarkGoldenrod, rect)
+                            var sq = new Square(SqSize, Colors.DarkGoldenrod, rect)
                             {
                                 Rank = i,
                                 File = j
                             };
                             Squares.Add(sq);
-                            
+
                         }
                         else
                         {
-                            var sq = new Square(sqSize, Colors.Wheat, rect)
+                            var sq = new Square(SqSize, Colors.Wheat, rect)
                             {
                                 Rank = i,
                                 File = j
@@ -81,7 +84,23 @@ namespace ChessGUI.Models
                     }
                 }
             }
+            Updating = false;
         }
+
+        internal void ScaleTo(double width, double height)
+        {
+            var scaleWidth = Width / width;
+            var scaleHeight = height / height;
+            if (!Updating)
+            {
+                Width = width;
+                Height = height;
+                OffsetX = OffsetX * scaleWidth;
+                OffsetY = OffsetY * scaleHeight;
+                CreateSquares();
+            }
+        }
+        
     }
 
 }
